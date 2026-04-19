@@ -1,10 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <script  type="text/javascript" src="https://codesandbox.io/public/sse-hooks/sse-hooks.e15ace8ccace5398a721ffec81f121de.js"></script>
-    <script  type="text/javascript" src="https://codesandbox.io/static/js/banner.d9cb10a38.js"></script>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>3年手帳 — Three-Year Diary</title>
@@ -74,7 +70,7 @@ body{font-family:var(--font-sans);background:linear-gradient(135deg,var(--k5) 0%
 .user-avatar{width:24px;height:24px;border-radius:50%;background:var(--k15);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--k60)}
 
 /* Week Header */
-.week-header{max-width:var(--max-w);margin:10px auto 0;padding:0 16px;width:100%}
+.week-header{max-width:var(--max-w);margin:10px auto 0;padding:0 16px}
 .week-grid{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:6px;transition:grid-template-columns var(--ease)}
 .week-day{text-align:center;padding:3px 0;cursor:pointer;border-radius:6px;transition:all var(--ease);overflow:hidden;min-width:0}
 .week-day:hover{background:rgba(0,0,0,.025)}
@@ -89,7 +85,7 @@ body{font-family:var(--font-sans);background:linear-gradient(135deg,var(--k5) 0%
 .week-day.selected .week-day-en,.week-day.selected .week-day-ja,.week-day.selected .week-day-num{color:#fff !important}
 
 /* Year Rows */
-.years-container{max-width:var(--max-w);margin:0 auto;padding:0 16px 10px;display:flex;flex-direction:column;gap:4px;flex:1;width:100%}
+.years-container{max-width:var(--max-w);margin:0 auto;padding:0 16px 10px;display:flex;flex-direction:column;gap:4px;flex:1}
 .year-row{border-radius:8px;overflow:hidden;border:1px solid var(--k10);animation:fadeUp .4s ease-out both;flex:1;display:flex;flex-direction:column}
 .year-row .days-grid{flex:1}
 .year-row:nth-child(1){animation-delay:.03s}
@@ -105,14 +101,13 @@ body{font-family:var(--font-sans);background:linear-gradient(135deg,var(--k5) 0%
 .year-label{font-size:7px;font-weight:500;letter-spacing:.18em;opacity:.6}
 
 /* Day cells */
-.days-grid{display:grid;grid-template-columns:repeat(7,1fr);transition:grid-template-columns var(--ease);width:100%}
+.days-grid{display:grid;grid-template-columns:repeat(7,1fr);transition:grid-template-columns var(--ease)}
 .day-cell{min-height:60px;padding:6px 6px;border-right:1px solid var(--k10);overflow:hidden;cursor:pointer;transition:all var(--ease);position:relative}
 .day-cell:last-child{border-right:none}
 .day-cell:hover{background:rgba(0,0,0,.012)}
 .day-cell.today-cell{box-shadow:inset 0 0 0 1.5px var(--k50)}
 .day-cell.expanded{min-height:var(--cell-h-expanded)}
 .day-cell.collapsed{display:none !important}
-.layer-hide-text .day-cell{min-height:var(--cell-h)}
 .day-cell-date{font-size:10px;font-weight:500;margin-bottom:4px;font-variant-numeric:tabular-nums}
 .today-badge-sm{background:var(--k75);color:#fff;width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700}
 
@@ -232,9 +227,9 @@ select.form-input{appearance:none;background:url("data:image/svg+xml,%3Csvg xmln
 .day-cell:hover .sketch-btn{opacity:1}
 .sketch-btn:hover{background:var(--k25);color:var(--k75)}
 .sketch-btn svg{width:10px;height:10px}
-.sketch-thumb{position:absolute;inset:0;opacity:.45;pointer-events:none;background-size:contain;background-repeat:no-repeat;background-position:center;background-color:transparent;transition:opacity .3s;z-index:2}
-.day-cell:hover .sketch-thumb{opacity:.65}
-.day-cell.expanded .sketch-thumb{opacity:.55;background-position:center;background-size:contain;background-color:transparent}
+.sketch-thumb{position:absolute;inset:0;opacity:.12;pointer-events:none;background-size:contain;background-repeat:no-repeat;background-position:center;transition:opacity .3s}
+.day-cell:hover .sketch-thumb{opacity:.2}
+.day-cell.expanded .sketch-thumb{opacity:.15;background-position:right center;background-size:contain}
 
 /* ===== Layer Toggle ===== */
 .layer-toggle{display:flex;gap:1px;background:var(--k10);border-radius:5px;padding:1px;margin-left:6px}
@@ -246,19 +241,14 @@ select.form-input{appearance:none;background:url("data:image/svg+xml,%3Csvg xmln
 .layer-hide-text .event-pill,.layer-hide-text .event-more,.layer-hide-text .empty-dot,.layer-hide-text .add-event-btn{display:none !important}
 .layer-hide-sketch .sketch-thumb{display:none !important}
 .layer-hide-sketch .sketch-btn{display:none !important}
-/* Solo mode: 絵・写を大きくくっきり表示 */
+/* Solo mode: full opacity for sketch/photo */
 .layer-solo-sketch .sketch-thumb{opacity:1 !important}
 .layer-solo-photo .photo-thumb{opacity:1 !important}
-/* 絵ソロ・写ソロ時はセル背景を白にして画像が映える */
-.layer-solo-sketch .day-cell,
-.layer-solo-photo .day-cell{background:#fff !important}
-/* テキスト非表示時もセル高さを保つ（画像がしっかり見える） */
-.layer-hide-text .day-cell{min-height:var(--cell-h)}
 
 /* ===== Photo Thumb in Cell ===== */
-.photo-thumb{position:absolute;inset:0;opacity:.45;pointer-events:none;background-size:contain;background-repeat:no-repeat;background-position:center;background-color:transparent;transition:opacity .3s;z-index:1}
-.day-cell:hover .photo-thumb{opacity:.65}
-.day-cell.expanded .photo-thumb{opacity:.55;background-position:center;background-size:contain;background-color:transparent}
+.photo-thumb{position:absolute;inset:0;opacity:.12;pointer-events:none;background-size:contain;background-repeat:no-repeat;background-position:center;transition:opacity .3s;z-index:0}
+.day-cell:hover .photo-thumb{opacity:.2}
+.day-cell.expanded .photo-thumb{opacity:.15;background-position:right center;background-size:contain}
 .photo-btn{position:absolute;bottom:4px;left:24px;width:18px;height:18px;border-radius:50%;background:var(--k10);border:none;color:var(--k50);cursor:pointer;opacity:0;transition:all .2s;display:flex;align-items:center;justify-content:center;padding:0}
 .day-cell:hover .photo-btn{opacity:1}
 .photo-btn:hover{background:var(--k25);color:var(--k75)}
@@ -266,16 +256,37 @@ select.form-input{appearance:none;background:url("data:image/svg+xml,%3Csvg xmln
 .photo-btn input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .layer-hide-photo .photo-thumb,.layer-hide-photo .photo-btn{display:none !important}
 
+/* ===== Pro Feature Lock ===== */
+.pro-badge{display:inline-flex;align-items:center;gap:2px;padding:1px 5px;border-radius:3px;background:linear-gradient(135deg,#c4a56a,#d4b87a);color:#fff;font-size:7px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle;margin-left:4px;line-height:1}
+.pro-locked{position:relative;pointer-events:none;opacity:.45;filter:grayscale(.5)}
+.pro-locked::after{content:'PRO';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);padding:2px 8px;border-radius:4px;background:linear-gradient(135deg,#c4a56a,#d4b87a);color:#fff;font-size:9px;font-weight:700;letter-spacing:.08em;pointer-events:auto;cursor:pointer;z-index:5}
+.pro-overlay{position:fixed;inset:0;background:rgba(26,26,26,.6);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center}
+.pro-overlay.open{display:flex}
+.pro-modal{background:#fff;border-radius:16px;padding:36px 32px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.pro-modal h2{font-size:20px;font-weight:700;color:var(--k85);margin-bottom:6px}
+.pro-modal .pro-icon{width:48px;height:48px;margin:0 auto 16px;background:linear-gradient(135deg,#c4a56a,#d4b87a);border-radius:12px;display:flex;align-items:center;justify-content:center}
+.pro-modal .pro-icon svg{width:24px;height:24px;color:#fff}
+.pro-modal p{font-size:13px;color:var(--k50);line-height:1.7;margin-bottom:20px}
+.pro-modal .pro-feature-list{text-align:left;margin:0 0 24px;padding:0;list-style:none}
+.pro-modal .pro-feature-list li{font-size:13px;color:var(--k70);padding:6px 0;border-bottom:1px solid var(--k5);display:flex;align-items:center;gap:8px}
+.pro-modal .pro-feature-list li::before{content:'✓';color:#c4a56a;font-weight:700;font-size:14px}
+.pro-modal .pro-price{font-size:28px;font-weight:700;color:var(--k85);margin-bottom:4px}
+.pro-modal .pro-price small{font-size:13px;font-weight:400;color:var(--k50)}
+.pro-modal .pro-price-note{font-size:11px;color:var(--k40);margin-bottom:20px}
+.pro-modal .pro-cta{display:inline-flex;align-items:center;gap:8px;padding:12px 32px;border-radius:12px;border:none;background:linear-gradient(135deg,#c4a56a,#d4b87a);color:#fff;font-size:14px;font-weight:600;font-family:var(--font-sans);cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(196,165,106,.3)}
+.pro-modal .pro-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(196,165,106,.4)}
+.pro-modal .pro-close{display:block;margin-top:16px;font-size:12px;color:var(--k40);background:none;border:none;cursor:pointer;font-family:var(--font-sans)}
+.pro-modal .pro-close:hover{color:var(--k60)}
+
 /* ===== Day View Active: full-width expansion ===== */
 .day-active .week-header{max-width:100%;width:100%;padding:0 10px}
-.day-active .years-container{max-width:100%;width:100%;padding:0 10px 10px;flex:1}
+.day-active .years-container{max-width:100%;width:100%;padding:0 10px 10px}
 .day-active .header-inner{max-width:none}
-.day-active .year-row{width:100%;flex:1;display:flex;flex-direction:column}
-.day-active .days-grid{display:flex !important;flex-direction:column;width:100%;flex:1}
+.day-active .year-row{width:100%}
+.day-active .days-grid{display:block !important;width:100%}
 .day-active .week-grid{display:block !important;width:100%}
 .day-active .week-day.hidden{display:none !important}
-.day-active .day-cell.expanded{display:flex !important;flex-direction:column;width:100% !important;flex:1;min-height:0;border-right:none}
-.day-active .day-cell.collapsed{display:none !important}
+.day-active .day-cell.expanded{display:block !important;width:100% !important;min-height:0;border-right:none}
 </style>
 </head>
 <body>
@@ -327,8 +338,8 @@ select.form-input{appearance:none;background:url("data:image/svg+xml,%3Csvg xmln
       </div>
       <div class="span-group">
         <button class="span-btn active" data-span="3" onclick="setYearSpan(3)">3年</button>
-        <button class="span-btn" data-span="4" onclick="setYearSpan(4)">4年</button>
-        <button class="span-btn" data-span="5" onclick="setYearSpan(5)">5年</button>
+        <button class="span-btn" data-span="4" onclick="setYearSpan(4)">4年 <span class="pro-badge">PRO</span></button>
+        <button class="span-btn" data-span="5" onclick="setYearSpan(5)">5年 <span class="pro-badge">PRO</span></button>
       </div>
       <div id="user-info" class="user-info"></div>
     </div>
@@ -406,7 +417,7 @@ select.form-input{appearance:none;background:url("data:image/svg+xml,%3Csvg xmln
 </div>
 
 <!-- Sketch Pad -->
-<div id="sketch-overlay" class="sketch-overlay" onclick="if(event.target===this&&!sketch.drawing&&Date.now()-sketch.lastEndTime>300)closeSketch()">
+<div id="sketch-overlay" class="sketch-overlay" onclick="if(event.target===this)closeSketch()">
   <div class="sketch-header">
     <span id="sketch-date" class="sketch-date"></span>
     <button class="sketch-close" onclick="closeSketch()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
@@ -432,7 +443,6 @@ select.form-input{appearance:none;background:url("data:image/svg+xml,%3Csvg xmln
     <div class="sketch-size active" data-size="2" onclick="setSketchSize(this)" title="細い"><div class="sketch-size-dot" style="width:4px;height:4px"></div></div>
     <div class="sketch-size" data-size="5" onclick="setSketchSize(this)" title="中"><div class="sketch-size-dot" style="width:7px;height:7px"></div></div>
     <div class="sketch-size" data-size="12" onclick="setSketchSize(this)" title="太い"><div class="sketch-size-dot" style="width:12px;height:12px"></div></div>
-    <div class="sketch-size" data-size="28" onclick="setSketchSize(this)" title="特太"><div class="sketch-size-dot" style="width:18px;height:18px"></div></div>
     <div class="sketch-sep"></div>
     <button class="sketch-tool" onclick="undoSketch()" title="元に戻す">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
@@ -449,6 +459,26 @@ select.form-input{appearance:none;background:url("data:image/svg+xml,%3Csvg xmln
   </div>
 </div>
 
+<!-- Pro Upgrade Modal -->
+<div id="pro-overlay" class="pro-overlay" onclick="if(event.target===this)closeProModal()">
+  <div class="pro-modal">
+    <div class="pro-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <h2>Pro にアップグレード</h2>
+    <p>3年手帳の全機能をアンロックして、<br>あなたの手帳をもっと豊かに。</p>
+    <ul class="pro-feature-list">
+      <li>スケッチパッド（お絵かき機能）</li>
+      <li>写真の挿入</li>
+      <li>4年・5年表示の切り替え</li>
+      <li>複数カレンダーの選択</li>
+      <li>レイヤー表示の切り替え</li>
+    </ul>
+    <div class="pro-price">¥1,500 <small>買い切り</small></div>
+    <div class="pro-price-note">リアル3年手帳の約1/3の価格。ずっと使えます。</div>
+    <button class="pro-cta" onclick="handleProUpgrade()">Pro を購入する</button>
+    <button class="pro-close" onclick="closeProModal()">あとで</button>
+  </div>
+</div>
+
 <script src="https://apis.google.com/js/api.js"></script>
 <script src="https://accounts.google.com/gsi/client"></script>
 
@@ -460,6 +490,28 @@ const CONFIG = {
   DISCOVERY_DOC: 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
 };
 function isGoogleConfigured(){return CONFIG.CLIENT_ID && !CONFIG.CLIENT_ID.startsWith('YOUR_')}
+
+/* === Pro Feature Gate === */
+const PRO = {
+  isActive: false,
+  features: ['sketch','photo','yearSpan','calendarSelect','layers'],
+  check(feature) {
+    if (this.isActive) return true;
+    showProModal(feature);
+    return false;
+  }
+};
+function showProModal(feature) {
+  document.getElementById('pro-overlay').classList.add('open');
+}
+function closeProModal() {
+  document.getElementById('pro-overlay').classList.remove('open');
+}
+function handleProUpgrade() {
+  // Phase 1: Stripe/Gumroad integration will go here
+  alert('決済機能は近日公開予定です。\nお楽しみに！');
+  closeProModal();
+}
 
 const state = {
   currentDate: new Date(), yearSpan: 3, selectedDay: null,
@@ -551,10 +603,10 @@ function getTS(t){const m={primary:{bg:'var(--accent-primary-bg)',bd:'var(--acce
 function refreshData(){if(state.isDemo){genDemoEvents();renderAll()}else{fetchAllEvents().then(()=>renderAll())}}
 function navigateWeek(dir){state.selectedDay=null;state.currentDate.setDate(state.currentDate.getDate()+dir*7);refreshData()}
 function goToToday(){state.selectedDay=null;state.currentDate=new Date();refreshData()}
-function setYearSpan(n){state.yearSpan=n;document.querySelectorAll('.span-btn').forEach(b=>b.classList.toggle('active',+b.dataset.span===n));refreshData()}
+function setYearSpan(n){if(n>3&&!PRO.check('yearSpan'))return;state.yearSpan=n;document.querySelectorAll('.span-btn').forEach(b=>b.classList.toggle('active',+b.dataset.span===n));refreshData()}
 function selectDay(i){state.selectedDay=state.selectedDay===i?null:i;renderAll()}
 function closeDayView(){state.selectedDay=null;renderAll()}
-function toggleCalendar(id){state.activeCalendars[id]=!state.activeCalendars[id];refreshData()}
+function toggleCalendar(id){if(!PRO.check('calendarSelect'))return;state.activeCalendars[id]=!state.activeCalendars[id];refreshData()}
 
 // Modal
 function openAddEvent(dateStr){
@@ -655,7 +707,7 @@ function renderYears(){
       const phThumb=getPhotoThumb(dk);
       const phThumbHtml=phThumb?`<div class="photo-thumb" style="background-image:url(${phThumb})"></div>`:'';
       const phBtn=`<button class="photo-btn" onclick="event.stopPropagation()" title="写真を追加"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><input type="file" accept="image/*" onchange="handlePhotoUpload(event,'${dk}')"></button>`;
-      return `<div class="${cc}" style="background:${th.cell}" onclick="selectDay(${i})">${phThumbHtml}${skThumbHtml}<div style="position:relative;z-index:3"><div class="day-cell-date" style="color:${dtc}">${isT?`<span class="today-badge-sm">${dn}</span>`:dn}</div>${eh}</div>${addBtn}${skBtn}${phBtn}</div>`;
+      return `<div class="${cc}" style="background:${th.cell}" onclick="selectDay(${i})">${phThumbHtml}${skThumbHtml}<div class="day-cell-date" style="color:${dtc}">${isT?`<span class="today-badge-sm">${dn}</span>`:dn}</div>${eh}${addBtn}${skBtn}${phBtn}</div>`;
     }).join('');
 
     return `<div class="year-row" style="opacity:${th.op}"><div class="year-header" style="background:${th.hBg}"><span class="year-badge" style="background:${th.badge};color:#fff">${yr}</span>${cur?`<span class="year-label" style="color:${th.hTxt}">THIS YEAR</span>`:''}</div><div class="days-grid" style="grid-template-columns:${gc}">${cells}</div></div>`;
@@ -723,7 +775,7 @@ const sketch = {
   canvas: null, ctx: null,
   drawing: false, tool: 'pen', color: '#1a1a1a', size: 2,
   history: [], currentDate: null,
-  lastX: 0, lastY: 0, lastEndTime: 0,
+  lastX: 0, lastY: 0,
 };
 
 function initSketch() {
@@ -732,46 +784,29 @@ function initSketch() {
   const c = sketch.canvas;
 
   // Mouse events
-  // mousedown はキャンバス上のみ
   c.addEventListener('mousedown', sketchStart);
-  // mousemove / mouseup は window レベルで拾う → キャンバス外にはみ出しても描画継続
-  window.addEventListener('mousemove', e => { if(sketch.drawing) sketchMove(e); });
-  window.addEventListener('mouseup', e => { if(sketch.drawing) sketchEnd(); });
-  // mouseleave は削除（window で代替するので不要）
+  c.addEventListener('mousemove', sketchMove);
+  c.addEventListener('mouseup', sketchEnd);
+  c.addEventListener('mouseleave', sketchEnd);
 
   // Touch events
   c.addEventListener('touchstart', e => { e.preventDefault(); sketchStart(touchToMouse(e)); }, { passive: false });
-  window.addEventListener('touchmove', e => { if(sketch.drawing){ e.preventDefault(); sketchMove(touchToMouse(e)); } }, { passive: false });
-  window.addEventListener('touchend', e => { if(sketch.drawing) sketchEnd(); });
-}
-
-// マウス・タッチ共通：キャンバスの表示サイズ vs 内部解像度のスケール補正
-function getCanvasPos(clientX, clientY) {
-  const rect = sketch.canvas.getBoundingClientRect();
-  const scaleX = sketch.canvas.width / rect.width;
-  const scaleY = sketch.canvas.height / rect.height;
-  return {
-    x: (clientX - rect.left) * scaleX,
-    y: (clientY - rect.top) * scaleY
-  };
+  c.addEventListener('touchmove', e => { e.preventDefault(); sketchMove(touchToMouse(e)); }, { passive: false });
+  c.addEventListener('touchend', e => { e.preventDefault(); sketchEnd(); }, { passive: false });
 }
 
 function touchToMouse(e) {
   const t = e.touches[0];
-  const pos = getCanvasPos(t.clientX, t.clientY);
-  return { offsetX: pos.x, offsetY: pos.y };
-}
-
-function mouseToCanvas(e) {
-  const pos = getCanvasPos(e.clientX, e.clientY);
-  return { offsetX: pos.x, offsetY: pos.y };
+  const rect = sketch.canvas.getBoundingClientRect();
+  const scaleX = sketch.canvas.width / rect.width;
+  const scaleY = sketch.canvas.height / rect.height;
+  return { offsetX: (t.clientX - rect.left) * scaleX, offsetY: (t.clientY - rect.top) * scaleY };
 }
 
 function sketchStart(e) {
   sketch.drawing = true;
-  const pos = mouseToCanvas(e);
-  sketch.lastX = pos.offsetX;
-  sketch.lastY = pos.offsetY;
+  sketch.lastX = e.offsetX;
+  sketch.lastY = e.offsetY;
   // Save state for undo
   sketch.history.push(sketch.ctx.getImageData(0, 0, sketch.canvas.width, sketch.canvas.height));
   if (sketch.history.length > 30) sketch.history.shift();
@@ -779,11 +814,10 @@ function sketchStart(e) {
 
 function sketchMove(e) {
   if (!sketch.drawing) return;
-  const pos = mouseToCanvas(e);
   const ctx = sketch.ctx;
   ctx.beginPath();
   ctx.moveTo(sketch.lastX, sketch.lastY);
-  ctx.lineTo(pos.offsetX, pos.offsetY);
+  ctx.lineTo(e.offsetX, e.offsetY);
 
   if (sketch.tool === 'eraser') {
     ctx.globalCompositeOperation = 'destination-out';
@@ -798,11 +832,11 @@ function sketchMove(e) {
   ctx.lineJoin = 'round';
   ctx.stroke();
 
-  sketch.lastX = pos.offsetX;
-  sketch.lastY = pos.offsetY;
+  sketch.lastX = e.offsetX;
+  sketch.lastY = e.offsetY;
 }
 
-function sketchEnd() { sketch.drawing = false; sketch.lastEndTime = Date.now(); }
+function sketchEnd() { sketch.drawing = false; }
 
 function setSketchTool(tool) {
   sketch.tool = tool;
@@ -835,6 +869,7 @@ function clearSketch() {
 
 function openSketch(dateStr) {
   event.stopPropagation();
+  if (!PRO.check('sketch')) return;
   sketch.currentDate = dateStr;
   document.getElementById('sketch-date').textContent = dateStr.replace(/-/g, '/') + ' のスケッチ';
   document.getElementById('sketch-overlay').classList.add('open');
@@ -876,6 +911,7 @@ function getSketchThumb(dateStr) {
 
 // ===== Photo System =====
 function handlePhotoUpload(e, dateStr) {
+  if (!PRO.check('photo')) { e.target.value=''; return; }
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
@@ -907,6 +943,7 @@ function getPhotoThumb(dateStr) {
 const layers = { text: true, sketch: true, photo: true };
 
 function toggleLayer(layer) {
+  if (!PRO.check('layers')) return;
   layers[layer] = !layers[layer];
   // Update button states
   document.querySelectorAll('.layer-btn').forEach(b => {
@@ -917,17 +954,13 @@ function toggleLayer(layer) {
 
 function applyLayers() {
   const c = document.getElementById('years-container');
-  c.classList.remove('layer-hide-text','layer-hide-sketch','layer-hide-photo','layer-solo-sketch','layer-solo-photo','layer-solo-visual');
+  c.classList.remove('layer-hide-text','layer-hide-sketch','layer-hide-photo','layer-solo-sketch','layer-solo-photo');
   if (!layers.text) c.classList.add('layer-hide-text');
   if (!layers.sketch) c.classList.add('layer-hide-sketch');
   if (!layers.photo) c.classList.add('layer-hide-photo');
-  // ソロモード：字OFFで絵か写が1つ以上ON → 画像を大きく圧巻表示
-  if (!layers.text && layers.sketch && !layers.photo) c.classList.add('layer-solo-sketch');
-  if (!layers.text && !layers.sketch && layers.photo) c.classList.add('layer-solo-photo');
-  if (!layers.text && layers.sketch && layers.photo) {
-    c.classList.add('layer-solo-sketch');
-    c.classList.add('layer-solo-photo');
-  }
+  // Solo modes: only one visual layer active, show at full opacity
+  if (layers.sketch && !layers.text && !layers.photo) c.classList.add('layer-solo-sketch');
+  if (layers.photo && !layers.text && !layers.sketch) c.classList.add('layer-solo-photo');
 }
 
 // Init sketch on load
@@ -938,10 +971,17 @@ window.onload=()=>{
   if(isGoogleConfigured())document.getElementById('google-auth-btn').style.display='inline-flex';
   if(isGoogleConfigured()&&typeof gapi!=='undefined'&&typeof google!=='undefined'){try{gapiLoaded();gisLoaded()}catch(e){}}
 };
+
+// === Pro badge visual hints on load ===
+document.addEventListener('DOMContentLoaded', () => {
+  if (!PRO.isActive) {
+    // Add subtle PRO indicators to layer buttons
+    document.querySelectorAll('.layer-btn').forEach(b => {
+      b.title = (b.title || '') + ' (Pro)';
+    });
+  }
+});
 </script>
-<!-- Self-bootstrap: fixes CodeSandbox nodebox delayed script execution -->
-<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" style="display:none"
-  onload="var self=this;function tryBoot(){if(typeof loadDemoMode==='undefined'){var sc=document.querySelectorAll('script:not([src])');for(var i=0;i<sc.length;i++){if(sc[i].textContent.length>1000){var s=document.createElement('script');s.textContent=sc[i].textContent;document.body.appendChild(s);return;}}setTimeout(tryBoot,1000);}else{self.remove();}}setTimeout(tryBoot,1500);">
-  <script crossorigin type="text/javascript" src="https://codesandbox.io/static/js/watermark-button.eeb14a97b.js"></script>
-  </body>
+<!-- © 2026 くとうてん / 3nen-techo.com — All rights reserved. Unauthorized copying prohibited. -->
+</body>
 </html>
