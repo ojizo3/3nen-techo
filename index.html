@@ -40,6 +40,996 @@ body{font-family:var(--font-sans);background:linear-gradient(135deg,var(--k5) 0%
 .auth-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
 .auth-btn svg{width:18px;height:18px}
 .auth-note{font-size:11px;color:var(--k30);max-width:360px;line-height:1.5}
+.auth-legal{margin-top:8px;font-size:11px;color:var(--k30);display:flex;gap:16px;justify-content:center}
+.auth-legal a{color:var(--k40);text-decoration:underline}
+.loading-spinner{width:36px;height:36px;border:3px solid var(--k10);border-top-color:var(--k60);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Header */
+.header{background:rgba(255,255,255,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--k10);position:sticky;top:0;z-index:20;padding:8px 16px}
+.header-inner{max-width:var(--max-w);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.logo{display:flex;align-items:center;gap:8px}
+.logo-icon{background:var(--k85);border-radius:8px;padding:6px;display:flex}
+.logo-icon svg{width:16px;height:16px}
+.logo h1{font-size:15px;font-weight:700;color:var(--k85)}
+.logo small{display:block;font-size:8px;color:var(--k40);margin-top:-2px;letter-spacing:.06em;font-weight:400}
+.cal-selector{display:flex;gap:3px;align-items:center}
+.cal-chip{display:flex;align-items:center;gap:3px;padding:3px 8px;border-radius:16px;border:1px solid var(--k10);background:#fff;font-size:10px;color:var(--k60);cursor:pointer;transition:all .15s}
+.cal-chip.active{border-color:var(--k40);color:var(--k85);font-weight:500}
+.cal-chip .cal-dot{width:6px;height:6px;border-radius:50%}
+.nav-group{display:flex;align-items:center;gap:3px}
+.nav-btn{padding:6px;border-radius:6px;border:none;background:transparent;color:var(--k50);cursor:pointer;transition:all .15s;display:flex}
+.nav-btn:hover{background:var(--k5);color:var(--k70)}
+.nav-btn svg{width:16px;height:16px}
+.today-btn{display:flex;align-items:center;gap:4px;padding:4px 12px;background:var(--k75);color:#fff;border:none;border-radius:6px;font-size:11px;font-weight:500;font-family:var(--font-sans);cursor:pointer;transition:all .15s}
+.today-btn:hover{background:var(--k65)}
+.today-btn svg{width:12px;height:12px}
+.span-group{display:flex;gap:2px;background:var(--k5);border-radius:6px;padding:2px}
+.span-btn{padding:3px 10px;border-radius:5px;border:none;font-size:11px;font-weight:500;font-family:var(--font-sans);color:var(--k40);background:transparent;cursor:pointer;transition:all .2s}
+.span-btn:hover{color:var(--k70)}
+.span-btn.active{background:#fff;color:var(--k85);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.user-info{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--k40)}
+.user-avatar{width:24px;height:24px;border-radius:50%;background:var(--k15);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--k60)}
+
+/* Week Header */
+.week-header{max-width:var(--max-w);margin:10px auto 0;padding:0 16px}
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:6px;transition:grid-template-columns var(--ease)}
+.week-day{text-align:center;padding:3px 0;cursor:pointer;border-radius:6px;transition:all var(--ease);overflow:hidden;min-width:0}
+.week-day:hover{background:rgba(0,0,0,.025)}
+.week-day.selected{background:var(--k75);border-radius:8px}
+.week-day.hidden{opacity:0;padding:0;pointer-events:none}
+.week-day-en{font-size:8px;font-weight:500;letter-spacing:.12em;color:var(--k40);transition:color .3s}
+.week-day-ja{font-size:9px;color:var(--k50);transition:color .3s}
+.week-day-num{font-size:15px;font-weight:700;margin-top:1px;color:var(--k70);transition:color .3s}
+.week-day.sat .week-day-en,.week-day.sat .week-day-ja,.week-day.sat .week-day-num{color:#6a8fb5}
+.week-day.sun .week-day-en,.week-day.sun .week-day-ja,.week-day.sun .week-day-num{color:#b56a6a}
+.week-day.today .week-day-num{color:var(--k85)}
+.week-day.selected .week-day-en,.week-day.selected .week-day-ja,.week-day.selected .week-day-num{color:#fff !important}
+
+/* Year Rows */
+.years-container{max-width:var(--max-w);margin:0 auto;padding:0 16px 10px;display:flex;flex-direction:column;gap:4px;flex:1}
+.year-row{border-radius:8px;overflow:hidden;border:1px solid var(--k10);animation:fadeUp .4s ease-out both;flex:1;display:flex;flex-direction:column}
+.year-row .days-grid{flex:1}
+.year-row:nth-child(1){animation-delay:.03s}
+.year-row:nth-child(2){animation-delay:.06s}
+.year-row:nth-child(3){animation-delay:.09s}
+.year-row:nth-child(4){animation-delay:.12s}
+.year-row:nth-child(5){animation-delay:.15s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* ★ ヘッダー帯を薄く */
+.year-header{padding:1px 10px;display:flex;align-items:center;gap:6px;transition:background var(--ease);min-height:0;line-height:1.2}
+.year-badge{font-size:10px;font-weight:700;padding:0px 8px;border-radius:10px;letter-spacing:.02em}
+.year-label{font-size:7px;font-weight:500;letter-spacing:.18em;opacity:.6}
+
+/* Day cells */
+.days-grid{display:grid;grid-template-columns:repeat(7,1fr);transition:grid-template-columns var(--ease)}
+.day-cell{min-height:60px;padding:6px 6px;border-right:1px solid var(--k10);overflow:hidden;cursor:pointer;transition:all var(--ease);position:relative}
+.day-cell:last-child{border-right:none}
+.day-cell:hover{background:rgba(0,0,0,.012)}
+.day-cell.today-cell{box-shadow:inset 0 0 0 1.5px var(--k50)}
+.day-cell.expanded{min-height:var(--cell-h-expanded)}
+.day-cell.collapsed{display:none !important}
+.day-cell-date{font-size:10px;font-weight:500;margin-bottom:4px;font-variant-numeric:tabular-nums}
+.today-badge-sm{background:var(--k75);color:#fff;width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700}
+
+/* Event pill */
+.event-pill{border-left:2px solid;border-radius:0 3px 3px 0;padding:2px 5px;margin-bottom:2px;cursor:pointer;transition:all .2s}
+.event-pill:hover{filter:brightness(.97)}
+.event-time{font-size:8px;opacity:.55;font-variant-numeric:tabular-nums}
+.event-title{font-size:10px;font-weight:500;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.event-title.full{white-space:normal}
+.event-more{font-size:9px;color:var(--k40);padding:1px 5px}
+.empty-dot{text-align:center;margin-top:12px;font-size:16px;opacity:.1;color:var(--k50)}
+
+/* Add event button (inside cell) */
+.add-event-btn{position:absolute;bottom:4px;right:4px;width:18px;height:18px;border-radius:50%;background:var(--k10);border:none;color:var(--k50);font-size:14px;line-height:1;cursor:pointer;opacity:0;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.day-cell:hover .add-event-btn{opacity:1}
+.add-event-btn:hover{background:var(--k25);color:var(--k75)}
+
+/* Close button */
+.close-day-btn{position:fixed;top:54px;right:16px;z-index:30;background:var(--k75);color:#fff;border:none;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.12);transition:all .2s;opacity:0;pointer-events:none}
+.close-day-btn.visible{opacity:1;pointer-events:auto}
+.close-day-btn:hover{background:var(--k60);transform:scale(1.1)}
+.close-day-btn svg{width:14px;height:14px}
+
+/* ===== Modal ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:50;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:14px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow:hidden;animation:modalIn .25s ease-out}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:none}}
+.modal-header{padding:14px 18px;border-bottom:1px solid var(--k10);display:flex;align-items:center;justify-content:space-between}
+.modal-header h3{font-size:14px;font-weight:600;color:var(--k85)}
+.modal-close{background:none;border:none;color:var(--k40);cursor:pointer;padding:4px;display:flex;border-radius:6px;transition:all .15s}
+.modal-close:hover{background:var(--k5);color:var(--k70)}
+.modal-close svg{width:18px;height:18px}
+.modal-body{padding:18px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:11px;font-weight:500;color:var(--k60);margin-bottom:4px}
+.form-input{width:100%;padding:8px 10px;border:1px solid var(--k15);border-radius:8px;font-size:13px;font-family:var(--font-sans);color:var(--k85);transition:border-color .2s;outline:none}
+.form-input:focus{border-color:var(--k50)}
+.form-row{display:flex;gap:8px}
+.form-row .form-group{flex:1}
+select.form-input{appearance:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23999'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 8px center #fff}
+.modal-footer{padding:12px 18px;border-top:1px solid var(--k10);display:flex;justify-content:flex-end;gap:8px}
+.btn{padding:7px 18px;border-radius:8px;border:none;font-size:12px;font-weight:500;font-family:var(--font-sans);cursor:pointer;transition:all .15s}
+.btn-cancel{background:var(--k5);color:var(--k60)}
+.btn-cancel:hover{background:var(--k10)}
+.btn-save{background:var(--k75);color:#fff}
+.btn-save:hover{background:var(--k65)}
+
+/* Footer */
+.footer{border-top:1px solid var(--k10);background:rgba(255,255,255,.6);padding:10px 16px}
+.footer-inner{max-width:var(--max-w);margin:0 auto;display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--k40)}
+.legend{display:flex;gap:12px}
+.legend-item{display:flex;align-items:center;gap:4px}
+.legend-dot{width:6px;height:6px;border-radius:50%}
+
+/* ===== Mobile ===== */
+@media(max-width:768px){
+  .header{padding:6px 10px}
+  .header-inner{flex-wrap:wrap;gap:6px}
+  .logo h1{font-size:13px}
+  .logo-icon{padding:5px}
+  .cal-selector{order:10;width:100%;overflow-x:auto;padding:2px 0}
+  .user-info span{display:none}
+  .week-header{padding:0 10px;margin-top:8px}
+  .week-day-en{font-size:7px}
+  .week-day-ja{font-size:8px}
+  .week-day-num{font-size:13px}
+  .years-container{padding:0 10px 20px;gap:4px}
+  .year-header{padding:1px 6px}
+  .year-badge{font-size:9px;padding:0px 6px}
+  .day-cell{min-height:70px;padding:4px}
+  .day-cell.expanded{min-height:180px}
+  .event-title{font-size:9px}
+  .event-pill{padding:2px 4px}
+  .add-event-btn{opacity:.6;width:16px;height:16px;font-size:12px}
+  .modal{margin:10px;max-width:100%}
+  .nav-group{gap:1px}
+  .span-group{padding:1px}
+  .span-btn{padding:3px 8px;font-size:10px}
+  .footer{padding:8px 10px}
+}
+@media(max-width:480px){
+  .logo small{display:none}
+  .cal-selector{display:none}
+  .day-cell{min-height:55px;padding:3px}
+  .day-cell.expanded{min-height:140px}
+  .week-day-num{font-size:12px}
+}
+/* ===== Sketch Pad ===== */
+.sketch-overlay{position:fixed;inset:0;background:rgba(26,26,26,.92);z-index:60;display:none;flex-direction:column;align-items:center;justify-content:center}
+.sketch-overlay.open{display:flex}
+.sketch-header{width:100%;max-width:90vw;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.sketch-date{font-size:14px;font-weight:600;color:#fff;font-family:var(--font-serif)}
+.sketch-close{background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;padding:6px;border-radius:6px;display:flex;transition:all .15s}
+.sketch-close:hover{color:#fff;background:rgba(255,255,255,.1)}
+.sketch-close svg{width:20px;height:20px}
+.sketch-canvas-wrap{background:#fff;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.4);overflow:hidden;touch-action:none;width:90vw;max-width:1100px}
+.sketch-canvas-wrap canvas{display:block;cursor:crosshair;width:100%;height:auto}
+.sketch-toolbar{width:100%;max-width:90vw;padding:12px 8px;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+.sketch-tool{width:34px;height:34px;border-radius:8px;border:2px solid transparent;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;padding:0}
+.sketch-tool:hover{background:rgba(255,255,255,.2);color:#fff}
+.sketch-tool.active{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.2);color:#fff}
+.sketch-tool svg{width:16px;height:16px}
+.sketch-sep{width:1px;height:20px;background:rgba(255,255,255,.15);margin:0 4px}
+.sketch-color{width:22px;height:22px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all .15s}
+.sketch-color:hover{transform:scale(1.15)}
+.sketch-color.active{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.3)}
+.sketch-size{width:34px;height:34px;border-radius:8px;border:2px solid transparent;background:rgba(255,255,255,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.sketch-size:hover{background:rgba(255,255,255,.2)}
+.sketch-size.active{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.2)}
+.sketch-size-dot{border-radius:50%;background:rgba(255,255,255,.8)}
+.sketch-actions{display:flex;gap:6px;margin-left:auto}
+.sketch-save{padding:6px 16px;border-radius:8px;border:none;background:var(--k75);color:#fff;font-size:12px;font-weight:600;font-family:var(--font-sans);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px}
+.sketch-save:hover{background:var(--k65)}
+.sketch-save svg{width:14px;height:14px}
+.sketch-btn{position:absolute;bottom:4px;left:4px;width:18px;height:18px;border-radius:50%;background:var(--k10);border:none;color:var(--k50);cursor:pointer;opacity:0;transition:all .2s;display:flex;align-items:center;justify-content:center;padding:0}
+.day-cell:hover .sketch-btn{opacity:1}
+.sketch-btn:hover{background:var(--k25);color:var(--k75)}
+.sketch-btn svg{width:10px;height:10px}
+.sketch-thumb{position:absolute;inset:0;opacity:.12;pointer-events:none;background-size:contain;background-repeat:no-repeat;background-position:center;transition:opacity .3s}
+.day-cell:hover .sketch-thumb{opacity:.2}
+.day-cell.expanded .sketch-thumb{opacity:.15;background-position:right center;background-size:contain}
+
+/* ===== Layer Toggle ===== */
+.layer-toggle{display:flex;gap:1px;background:var(--k10);border-radius:5px;padding:1px;margin-left:6px}
+.layer-btn{padding:2px 7px;border-radius:4px;border:none;font-size:9px;font-weight:500;font-family:var(--font-sans);color:var(--k40);background:transparent;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:2px;white-space:nowrap}
+.layer-btn:hover{color:var(--k60)}
+.layer-btn.active{background:#fff;color:var(--k85);box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.layer-btn svg{width:10px;height:10px}
+/* Layer visibility states */
+.layer-hide-text .event-pill,.layer-hide-text .event-more,.layer-hide-text .empty-dot,.layer-hide-text .add-event-btn{display:none !important}
+.layer-hide-sketch .sketch-thumb{display:none !important}
+.layer-hide-sketch .sketch-btn{display:none !important}
+/* Solo mode: full opacity for sketch/photo */
+.layer-solo-sketch .sketch-thumb{opacity:1 !important}
+.layer-solo-photo .photo-thumb{opacity:1 !important}
+
+/* ===== Photo Thumb in Cell ===== */
+.photo-thumb{position:absolute;inset:0;opacity:.12;pointer-events:none;background-size:contain;background-repeat:no-repeat;background-position:center;transition:opacity .3s;z-index:0}
+.day-cell:hover .photo-thumb{opacity:.2}
+.day-cell.expanded .photo-thumb{opacity:.15;background-position:right center;background-size:contain}
+.photo-btn{position:absolute;bottom:4px;left:24px;width:18px;height:18px;border-radius:50%;background:var(--k10);border:none;color:var(--k50);cursor:pointer;opacity:0;transition:all .2s;display:flex;align-items:center;justify-content:center;padding:0}
+.day-cell:hover .photo-btn{opacity:1}
+.photo-btn:hover{background:var(--k25);color:var(--k75)}
+.photo-btn svg{width:10px;height:10px}
+.photo-btn input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.layer-hide-photo .photo-thumb,.layer-hide-photo .photo-btn{display:none !important}
+
+/* ===== Pro Feature Lock ===== */
+.pro-badge{display:inline-flex;align-items:center;gap:2px;padding:1px 5px;border-radius:3px;background:linear-gradient(135deg,#c4a56a,#d4b87a);color:#fff;font-size:7px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle;margin-left:4px;line-height:1}
+.pro-locked{position:relative;pointer-events:none;opacity:.45;filter:grayscale(.5)}
+.pro-locked::after{content:'PRO';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);padding:2px 8px;border-radius:4px;background:linear-gradient(135deg,#c4a56a,#d4b87a);color:#fff;font-size:9px;font-weight:700;letter-spacing:.08em;pointer-events:auto;cursor:pointer;z-index:5}
+.pro-overlay{position:fixed;inset:0;background:rgba(26,26,26,.6);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center}
+.pro-overlay.open{display:flex}
+.pro-modal{background:#fff;border-radius:16px;padding:36px 32px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.pro-modal h2{font-size:20px;font-weight:700;color:var(--k85);margin-bottom:6px}
+.pro-modal .pro-icon{width:48px;height:48px;margin:0 auto 16px;background:linear-gradient(135deg,#c4a56a,#d4b87a);border-radius:12px;display:flex;align-items:center;justify-content:center}
+.pro-modal .pro-icon svg{width:24px;height:24px;color:#fff}
+.pro-modal p{font-size:13px;color:var(--k50);line-height:1.7;margin-bottom:20px}
+.pro-modal .pro-feature-list{text-align:left;margin:0 0 24px;padding:0;list-style:none}
+.pro-modal .pro-feature-list li{font-size:13px;color:var(--k70);padding:6px 0;border-bottom:1px solid var(--k5);display:flex;align-items:center;gap:8px}
+.pro-modal .pro-feature-list li::before{content:'✓';color:#c4a56a;font-weight:700;font-size:14px}
+.pro-modal .pro-price{font-size:28px;font-weight:700;color:var(--k85);margin-bottom:4px}
+.pro-modal .pro-price small{font-size:13px;font-weight:400;color:var(--k50)}
+.pro-modal .pro-price-note{font-size:11px;color:var(--k40);margin-bottom:20px}
+.pro-modal .pro-cta{display:inline-flex;align-items:center;gap:8px;padding:12px 32px;border-radius:12px;border:none;background:linear-gradient(135deg,#c4a56a,#d4b87a);color:#fff;font-size:14px;font-weight:600;font-family:var(--font-sans);cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(196,165,106,.3)}
+.pro-modal .pro-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(196,165,106,.4)}
+.pro-modal .pro-close{display:block;margin-top:16px;font-size:12px;color:var(--k40);background:none;border:none;cursor:pointer;font-family:var(--font-sans)}
+.pro-modal .pro-close:hover{color:var(--k60)}
+
+/* ===== Day View Active: full-width expansion ===== */
+.day-active .week-header{max-width:100%;width:100%;padding:0 10px}
+.day-active .years-container{max-width:100%;width:100%;padding:0 10px 10px}
+.day-active .header-inner{max-width:none}
+.day-active .year-row{width:100%}
+.day-active .days-grid{display:block !important;width:100%}
+.day-active .week-grid{display:block !important;width:100%}
+.day-active .week-day.hidden{display:none !important}
+.day-active .day-cell.expanded{display:block !important;width:100% !important;min-height:0;border-right:none}
+</style>
+</head>
+<body>
+
+<!-- Auth -->
+<div id="auth-screen" class="auth-screen">
+  <div class="auth-logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#bfbfbf" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+    </svg>
+  </div>
+  <h1 class="auth-title">3年手帳</h1>
+  <p class="auth-subtitle">Three-Year Diary</p>
+  <p class="auth-desc">Googleカレンダーの予定を3年分並べて表示。<br>今年は常に「最終年」。使うほど、振り返りが楽しくなる手帳アプリ。</p>
+  <button class="auth-btn" onclick="loadDemoMode()" style="background:var(--k75)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    デモモードで試す
+  </button>
+  <button id="google-auth-btn" class="auth-btn" onclick="handleAuth()" style="display:none;background:var(--k60)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Googleカレンダーを接続
+  </button>
+  <p class="auth-note">デモモード：サンプルデータで操作感をお試し。<br>Google接続：ご自身のカレンダーを読み書きで連携。</p>
+  <div class="auth-legal"><a href="/privacy.html">プライバシーポリシー</a><a href="/terms.html">利用規約</a></div>
+</div>
+
+<!-- Loading -->
+<div id="loading-screen" class="auth-screen" style="display:none">
+  <div class="loading-spinner"></div>
+  <p style="font-size:13px;color:var(--k50)">カレンダーデータを取得中…</p>
+</div>
+
+<!-- App -->
+<div id="app" style="display:none">
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#bfbfbf" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+        </div>
+        <div><h1>3年手帳</h1><small>Three-Year Diary</small></div>
+      </div>
+      <div id="cal-selector" class="cal-selector"></div>
+      <div class="nav-group">
+        <button class="nav-btn" onclick="navigateWeek(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <button class="today-btn" onclick="goToToday()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Today</button>
+        <button class="nav-btn" onclick="navigateWeek(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+      <div class="span-group">
+        <button class="span-btn active" data-span="3" onclick="setYearSpan(3)">3年</button>
+        <button class="span-btn" data-span="4" onclick="setYearSpan(4)">4年 <span class="pro-badge">PRO</span></button>
+        <button class="span-btn" data-span="5" onclick="setYearSpan(5)">5年 <span class="pro-badge">PRO</span></button>
+      </div>
+      <div id="user-info" class="user-info"></div>
+    </div>
+  </header>
+
+  <div class="week-header"><div id="week-grid" class="week-grid"></div></div>
+  <div id="years-container" class="years-container"></div>
+
+  <button id="close-day-btn" class="close-day-btn" onclick="closeDayView()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div id="legend" class="legend"></div>
+      <div id="layer-toggle" class="layer-toggle">
+        <button class="layer-btn active" data-layer="text" onclick="toggleLayer('text')" title="文字">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
+          字
+        </button>
+        <button class="layer-btn active" data-layer="sketch" onclick="toggleLayer('sketch')" title="スケッチ">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>
+          絵
+        </button>
+        <button class="layer-btn active" data-layer="photo" onclick="toggleLayer('photo')" title="写真">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          写
+        </button>
+      </div>
+      <span>Powered by Google Calendar</span>
+    </div>
+  </footer>
+</div>
+
+<!-- Event Modal -->
+<div id="event-modal" class="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">予定を追加</h3>
+      <button class="modal-close" onclick="closeModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>タイトル</label>
+        <input id="ev-title" class="form-input" type="text" placeholder="予定のタイトル">
+      </div>
+      <div class="form-group">
+        <label>日付</label>
+        <input id="ev-date" class="form-input" type="date">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>開始時刻（空欄で終日）</label>
+          <input id="ev-start" class="form-input" type="time">
+        </div>
+        <div class="form-group">
+          <label>終了時刻</label>
+          <input id="ev-end" class="form-input" type="time">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>カレンダー</label>
+        <select id="ev-calendar" class="form-input"></select>
+      </div>
+      <div class="form-group">
+        <label>メモ</label>
+        <textarea id="ev-desc" class="form-input" rows="3" placeholder="メモや詳細…" style="resize:vertical"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeModal()">キャンセル</button>
+      <button class="btn btn-save" onclick="saveEvent()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sketch Pad -->
+<div id="sketch-overlay" class="sketch-overlay" onclick="if(event.target===this)closeSketch()">
+  <div class="sketch-header">
+    <span id="sketch-date" class="sketch-date"></span>
+    <button class="sketch-close" onclick="closeSketch()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div class="sketch-canvas-wrap">
+    <canvas id="sketch-canvas" width="1000" height="560"></canvas>
+  </div>
+  <div class="sketch-toolbar">
+    <button class="sketch-tool active" data-tool="pen" onclick="setSketchTool('pen')" title="ペン">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+    </button>
+    <button class="sketch-tool" data-tool="eraser" onclick="setSketchTool('eraser')" title="消しゴム">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H7L3 16l9-9 8 8-4 4z"/><path d="M6.5 13.5l5-5"/></svg>
+    </button>
+    <div class="sketch-sep"></div>
+    <div class="sketch-color active" style="background:#1a1a1a" data-color="#1a1a1a" onclick="setSketchColor(this)" title="黒"></div>
+    <div class="sketch-color" style="background:#808080" data-color="#808080" onclick="setSketchColor(this)" title="グレー"></div>
+    <div class="sketch-color" style="background:#c4a56a" data-color="#c4a56a" onclick="setSketchColor(this)" title="ゴールド"></div>
+    <div class="sketch-color" style="background:#7a9e7a" data-color="#7a9e7a" onclick="setSketchColor(this)" title="グリーン"></div>
+    <div class="sketch-color" style="background:#9a85b5" data-color="#9a85b5" onclick="setSketchColor(this)" title="パープル"></div>
+    <div class="sketch-color" style="background:#b56a6a" data-color="#b56a6a" onclick="setSketchColor(this)" title="レッド"></div>
+    <div class="sketch-sep"></div>
+    <div class="sketch-size active" data-size="2" onclick="setSketchSize(this)" title="細い"><div class="sketch-size-dot" style="width:4px;height:4px"></div></div>
+    <div class="sketch-size" data-size="5" onclick="setSketchSize(this)" title="中"><div class="sketch-size-dot" style="width:7px;height:7px"></div></div>
+    <div class="sketch-size" data-size="12" onclick="setSketchSize(this)" title="太い"><div class="sketch-size-dot" style="width:12px;height:12px"></div></div>
+    <div class="sketch-sep"></div>
+    <button class="sketch-tool" onclick="undoSketch()" title="元に戻す">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+    </button>
+    <button class="sketch-tool" onclick="clearSketch()" title="全消去">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+    </button>
+    <div class="sketch-actions">
+      <button class="sketch-save" onclick="saveSketch()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        保存
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Pro Upgrade Modal -->
+<div id="pro-overlay" class="pro-overlay" onclick="if(event.target===this)closeProModal()">
+  <div class="pro-modal">
+    <div class="pro-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <h2>Pro にアップグレード</h2>
+    <p>3年手帳の全機能をアンロックして、<br>あなたの手帳をもっと豊かに。</p>
+    <ul class="pro-feature-list">
+      <li>スケッチパッド（お絵かき機能）</li>
+      <li>写真の挿入</li>
+      <li>4年・5年表示の切り替え</li>
+      <li>複数カレンダーの選択</li>
+      <li>レイヤー表示の切り替え</li>
+    </ul>
+    <div class="pro-price">¥1,500 <small>買い切り</small></div>
+    <div class="pro-price-note">リアル3年手帳の約1/3の価格。ずっと使えます。</div>
+    <button class="pro-cta" onclick="handleProUpgrade()">Pro を購入する</button>
+    <button class="pro-close" onclick="closeProModal()">あとで</button>
+  </div>
+</div>
+
+<script src="https://apis.google.com/js/api.js"></script>
+<script src="https://accounts.google.com/gsi/client"></script>
+
+<script>
+const CONFIG = {
+  CLIENT_ID: '44244451601-h9ho6um3213slfsqjn2mrbfo1onolcna.apps.googleusercontent.com',
+  API_KEY: 'AIzaSyDa2kVrIc9dwpFc3D9482REyUqSRcmH1n8',
+  SCOPES: 'https://www.googleapis.com/auth/calendar.readonly',
+  DISCOVERY_DOC: 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
+};
+function isGoogleConfigured(){return CONFIG.CLIENT_ID && !CONFIG.CLIENT_ID.startsWith('YOUR_')}
+
+/* === Pro Feature Gate === */
+const PRO = {
+  isActive: false,
+  features: ['sketch','photo','yearSpan','calendarSelect','layers'],
+  check(feature) {
+    if (this.isActive) return true;
+    showProModal(feature);
+    return false;
+  }
+};
+function showProModal(feature) {
+  document.getElementById('pro-overlay').classList.add('open');
+}
+function closeProModal() {
+  document.getElementById('pro-overlay').classList.remove('open');
+}
+function handleProUpgrade() {
+  // Phase 1: Stripe/Gumroad integration will go here
+  alert('決済機能は近日公開予定です。\nお楽しみに！');
+  closeProModal();
+}
+
+const state = {
+  currentDate: new Date(), yearSpan: 3, selectedDay: null,
+  calendars: [], activeCalendars: {}, events: {},
+  tokenClient: null, isDemo: false,
+};
+
+const DAY_EN=['MON','TUE','WED','THU','FRI','SAT','SUN'];
+const DAY_JA=['月','火','水','木','金','土','日'];
+
+// Auth
+let gapiInited=false, gisInited=false;
+function gapiLoaded(){gapi.load('client',async()=>{await gapi.client.init({apiKey:CONFIG.API_KEY,discoveryDocs:[CONFIG.DISCOVERY_DOC]});gapiInited=true})}
+function gisLoaded(){state.tokenClient=google.accounts.oauth2.initTokenClient({client_id:CONFIG.CLIENT_ID,scope:CONFIG.SCOPES,callback:handleTokenResponse});gisInited=true}
+function handleAuth(){
+  if(!isGoogleConfigured()){loadDemoMode();return}
+  if(!gapiInited||!gisInited){loadDemoMode();return}
+  state.tokenClient.requestAccessToken({prompt:gapi.client.getToken()===null?'consent':''});
+}
+async function handleTokenResponse(resp){
+  if(resp.error){console.error(resp);return}
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('loading-screen').style.display='flex';
+  try{await fetchCalendars();await fetchAllEvents();document.getElementById('loading-screen').style.display='none';document.getElementById('app').classList.add('visible');renderAll()}
+  catch(e){console.error(e);alert('取得に失敗しました');document.getElementById('loading-screen').style.display='none';document.getElementById('auth-screen').style.display='flex'}
+}
+
+// API
+async function fetchCalendars(){
+  const r=await gapi.client.calendar.calendarList.list();
+  state.calendars=r.result.items.filter(c=>c.selected!==false);
+  state.calendars.forEach(c=>{state.activeCalendars[c.id]=true});
+}
+async function fetchEventsForWeek(year,wd){
+  if(!state.events[year])state.events[year]={};
+  const tMin=new Date(year,wd[0].getMonth(),wd[0].getDate(),0,0,0);
+  const tMax=new Date(year,wd[6].getMonth(),wd[6].getDate(),23,59,59);
+  const ids=Object.keys(state.activeCalendars).filter(id=>state.activeCalendars[id]);
+  await Promise.all(ids.map(async calId=>{
+    try{
+      const r=await gapi.client.calendar.events.list({calendarId:calId,timeMin:tMin.toISOString(),timeMax:tMax.toISOString(),singleEvents:true,orderBy:'startTime',maxResults:250,timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone});
+      const cal=state.calendars.find(c=>c.id===calId);
+      const ct=catCal(cal);
+      (r.result.items||[]).forEach(ev=>{
+        const ds=evDateStr(ev);if(!ds)return;
+        if(!state.events[year][ds])state.events[year][ds]=[];
+        state.events[year][ds].push({id:ev.id,title:ev.summary||'(無題)',type:ct,calId:calId,allDay:!!ev.start.date,time:ev.start.dateTime?fmtTime(ev.start.dateTime)+'–'+fmtTime(ev.end.dateTime):null,desc:ev.description||''});
+      });
+    }catch(e){console.warn(e)}
+  }));
+}
+async function fetchAllEvents(){
+  state.events={};
+  const wd=getWeekDates(state.currentDate);
+  const cy=state.currentDate.getFullYear();
+  const yrs=[];for(let i=0;i<state.yearSpan;i++)yrs.push(cy-(state.yearSpan-1-i));
+  await Promise.all(yrs.map(y=>fetchEventsForWeek(y,wd)));
+}
+async function createGoogleEvent(calId,ev){
+  const body={summary:ev.title,description:ev.desc||''};
+  if(ev.startTime){body.start={dateTime:`${ev.date}T${ev.startTime}:00`,timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone};body.end={dateTime:`${ev.date}T${ev.endTime||ev.startTime}:00`,timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone}}
+  else{body.start={date:ev.date};body.end={date:ev.date}}
+  await gapi.client.calendar.events.insert({calendarId:calId,resource:body});
+}
+
+// Helpers
+function getMonday(d){const dd=new Date(d);const day=dd.getDay();dd.setDate(dd.getDate()-day+(day===0?-6:1));return new Date(dd.getFullYear(),dd.getMonth(),dd.getDate())}
+function getWeekDates(d){const m=getMonday(d);return Array.from({length:7},(_,i)=>{const x=new Date(m);x.setDate(x.getDate()+i);return x})}
+function fmtDate(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`}
+function fmtTime(s){const d=new Date(s);return `${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`}
+function evDateStr(ev){if(ev.start.date)return ev.start.date;if(ev.start.dateTime){const d=new Date(ev.start.dateTime);return fmtDate(d.getFullYear(),d.getMonth(),d.getDate())}return null}
+function catCal(c){if(!c)return'primary';const n=(c.summary||'').toLowerCase();if(n.includes('work')||n.includes('仕事'))return'work';if(n.includes('プライベート')||n.includes('private')||n.includes('personal')||n.includes('ファミリー'))return'private';return'primary'}
+function todayStr(){const t=new Date();return fmtDate(t.getFullYear(),t.getMonth(),t.getDate())}
+
+// ★ Year theme — 2026=K75%, graduated lighter
+function getYearTheme(idx,total){
+  const th=[
+    {hBg:'#808080',hTxt:'#d9d9d9',badge:'#666',cell:'#f2f2f2',date:'#b3b3b3',op:.6},
+    {hBg:'#808080',hTxt:'#d9d9d9',badge:'#666',cell:'#f4f4f4',date:'#b3b3b3',op:.7},
+    {hBg:'#595959',hTxt:'#d9d9d9',badge:'#4d4d4d',cell:'#f7f7f7',date:'#999',op:.85},
+    {hBg:'#404040',hTxt:'#d9d9d9',badge:'#595959',cell:'#fff',date:'#808080',op:1},  // K75%
+  ];
+  const map=total<=3?[th[0],th[2],th[3]]:total<=4?[th[0],th[1],th[2],th[3]]:[th[0],th[0],th[1],th[2],th[3]];
+  return map[idx]||th[0];
+}
+function getTS(t){const m={primary:{bg:'var(--accent-primary-bg)',bd:'var(--accent-primary-border)',tx:'var(--accent-primary-text)'},work:{bg:'var(--accent-work-bg)',bd:'var(--accent-work-border)',tx:'var(--accent-work-text)'},private:{bg:'var(--accent-private-bg)',bd:'var(--accent-private-border)',tx:'var(--accent-private-text)'}};return m[t]||m.primary}
+
+// Nav
+function refreshData(){if(state.isDemo){genDemoEvents();renderAll()}else{fetchAllEvents().then(()=>renderAll())}}
+function navigateWeek(dir){state.selectedDay=null;state.currentDate.setDate(state.currentDate.getDate()+dir*7);refreshData()}
+function goToToday(){state.selectedDay=null;state.currentDate=new Date();refreshData()}
+function setYearSpan(n){if(n>3&&!PRO.check('yearSpan'))return;state.yearSpan=n;document.querySelectorAll('.span-btn').forEach(b=>b.classList.toggle('active',+b.dataset.span===n));refreshData()}
+function selectDay(i){state.selectedDay=state.selectedDay===i?null:i;renderAll()}
+function closeDayView(){state.selectedDay=null;renderAll()}
+function toggleCalendar(id){if(!PRO.check('calendarSelect'))return;state.activeCalendars[id]=!state.activeCalendars[id];refreshData()}
+
+// Modal
+function openAddEvent(dateStr){
+  document.getElementById('modal-title').textContent='予定を追加';
+  document.getElementById('ev-title').value='';
+  document.getElementById('ev-date').value=dateStr;
+  document.getElementById('ev-start').value='';
+  document.getElementById('ev-end').value='';
+  document.getElementById('ev-desc').value='';
+  const sel=document.getElementById('ev-calendar');
+  sel.innerHTML=state.calendars.filter(c=>c.accessRole==='owner').map(c=>`<option value="${c.id}">${c.summary||c.id}</option>`).join('');
+  document.getElementById('event-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('ev-title').focus(),100);
+}
+function closeModal(){document.getElementById('event-modal').classList.remove('open')}
+async function saveEvent(){
+  const title=document.getElementById('ev-title').value.trim();
+  if(!title){document.getElementById('ev-title').focus();return}
+  const date=document.getElementById('ev-date').value;
+  const start=document.getElementById('ev-start').value;
+  const end=document.getElementById('ev-end').value||start;
+  const calId=document.getElementById('ev-calendar').value;
+  const desc=document.getElementById('ev-desc').value;
+  const ct=catCal(state.calendars.find(c=>c.id===calId));
+
+  if(!state.isDemo){
+    try{await createGoogleEvent(calId,{title,date,startTime:start||null,endTime:end||null,desc});closeModal();await fetchAllEvents();renderAll()}
+    catch(e){console.error(e);alert('保存に失敗しました')}
+  } else {
+    // Demo: add locally
+    const year=parseInt(date.split('-')[0]);
+    if(!state.events[year])state.events[year]={};
+    if(!state.events[year][date])state.events[year][date]=[];
+    state.events[year][date].push({id:'demo-'+Date.now(),title,type:ct,calId,allDay:!start,time:start?`${start}–${end}`:null,desc});
+    closeModal();renderAll();
+  }
+}
+
+// Render
+function renderAll(){
+  renderCalSel();renderUserInfo();renderWeekHeader();renderYears();renderLegend();
+  document.getElementById('close-day-btn').classList.toggle('visible',state.selectedDay!==null);
+  document.getElementById('app').classList.toggle('day-active',state.selectedDay!==null);
+}
+function renderCalSel(){
+  const el=document.getElementById('cal-selector');
+  const cs=state.calendars.filter(c=>!c.id.includes('holiday')&&c.accessRole!=='freeBusyReader').slice(0,5);
+  el.innerHTML=cs.map(c=>`<div class="cal-chip ${state.activeCalendars[c.id]?'active':''}" onclick="toggleCalendar('${c.id}')"><span class="cal-dot" style="background:${c.backgroundColor||'#999'}"></span>${(c.summary||'').slice(0,8)}</div>`).join('');
+}
+function renderUserInfo(){
+  const el=document.getElementById('user-info');
+  const p=state.calendars.find(c=>c.primary);
+  if(p){const i=(p.summary||'U')[0].toUpperCase();el.innerHTML=`<div class="user-avatar">${i}</div><span>${(p.summary||'').slice(0,16)}</span>`}
+}
+function renderWeekHeader(){
+  const wd=getWeekDates(state.currentDate);
+  const g=document.getElementById('week-grid');
+  const dv=state.selectedDay!==null;
+  g.style.gridTemplateColumns=dv?'':'repeat(7,1fr)';
+  g.innerHTML=wd.map((d,i)=>{
+    const ds=fmtDate(d.getFullYear(),d.getMonth(),d.getDate());
+    const cls=['week-day',i===5?'sat':i===6?'sun':'',ds===todayStr()?'today':'',state.selectedDay===i?'selected':'',dv&&state.selectedDay!==i?'hidden':''].filter(Boolean).join(' ');
+    return `<div class="${cls}" onclick="selectDay(${i})"><div class="week-day-en">${DAY_EN[i]}</div><div class="week-day-ja">${DAY_JA[i]}</div><div class="week-day-num">${d.getMonth()+1}/${d.getDate()}</div></div>`;
+  }).join('');
+}
+function renderYears(){
+  const c=document.getElementById('years-container');
+  const wd=getWeekDates(state.currentDate);
+  const cy=state.currentDate.getFullYear();
+  const yrs=[];for(let i=0;i<state.yearSpan;i++)yrs.push(cy-(state.yearSpan-1-i));
+  const dv=state.selectedDay!==null;
+  const gc=dv?'':'repeat(7,1fr)';
+
+  c.innerHTML=yrs.map((yr,yi)=>{
+    const th=getYearTheme(yi,yrs.length);
+    const cur=yi===yrs.length-1;
+    // year-range removed per design request
+
+    const cells=wd.map((d,i)=>{
+      const dk=fmtDate(yr,d.getMonth(),d.getDate());
+      const evs=state.events[yr]?.[dk]||[];
+      const isT=cur&&fmtDate(d.getFullYear(),d.getMonth(),d.getDate())===todayStr();
+      const exp=dv&&state.selectedDay===i;
+      const col=dv&&state.selectedDay!==i;
+      const we=i>=5;
+      const dn=new Date(yr,d.getMonth(),d.getDate()).getDate();
+      const mx=exp?20:2;
+      const vis=evs.slice(0,mx);
+      const hid=evs.length-vis.length;
+      const dtc=we?(i===5?'#6a8fb5':'#b56a6a'):th.date;
+      const cc=['day-cell',isT?'today-cell':'',exp?'expanded':'',col?'collapsed':''].filter(Boolean).join(' ');
+      const eh=vis.length>0?vis.map(ev=>{const s=getTS(ev.type);return `<div class="event-pill" style="background:${s.bg};border-left-color:${s.bd}">${ev.time?`<div class="event-time" style="color:${s.tx}">${ev.time}</div>`:''}<div class="event-title ${exp?'full':''}" style="color:${s.tx}">${ev.title}</div></div>`}).join('')+(hid>0?`<div class="event-more">+${hid}…</div>`:''):`<div class="empty-dot">·</div>`;
+      // Only show add button for current year
+      const addBtn=cur?`<button class="add-event-btn" onclick="event.stopPropagation();openAddEvent('${dk}')" title="予定を追加">+</button>`:'';
+      const skBtn=`<button class="sketch-btn" onclick="openSketch('${dk}')" title="スケッチ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg></button>`;
+      const skThumb=getSketchThumb(dk);
+      const skThumbHtml=skThumb?`<div class="sketch-thumb" style="background-image:url(${skThumb})"></div>`:'';
+      const phThumb=getPhotoThumb(dk);
+      const phThumbHtml=phThumb?`<div class="photo-thumb" style="background-image:url(${phThumb})"></div>`:'';
+      const phBtn=`<button class="photo-btn" onclick="event.stopPropagation()" title="写真を追加"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><input type="file" accept="image/*" onchange="handlePhotoUpload(event,'${dk}')"></button>`;
+      return `<div class="${cc}" style="background:${th.cell}" onclick="selectDay(${i})">${phThumbHtml}${skThumbHtml}<div class="day-cell-date" style="color:${dtc}">${isT?`<span class="today-badge-sm">${dn}</span>`:dn}</div>${eh}${addBtn}${skBtn}${phBtn}</div>`;
+    }).join('');
+
+    return `<div class="year-row" style="opacity:${th.op}"><div class="year-header" style="background:${th.hBg}"><span class="year-badge" style="background:${th.badge};color:#fff">${yr}</span>${cur?`<span class="year-label" style="color:${th.hTxt}">THIS YEAR</span>`:''}</div><div class="days-grid" style="grid-template-columns:${gc}">${cells}</div></div>`;
+  }).join('');
+}
+function renderLegend(){
+  document.getElementById('legend').innerHTML=[
+    {n:'メイン',c:'var(--accent-primary-border)'},{n:'WORK',c:'var(--accent-work-border)'},{n:'プライベート',c:'var(--accent-private-border)'}
+  ].map(t=>`<div class="legend-item"><div class="legend-dot" style="background:${t.c}"></div>${t.n}</div>`).join('');
+}
+
+// Demo
+function seededRandom(s){let x=Math.sin(s)*10000;return x-Math.floor(x)}
+function dateSeed(s){let h=0;for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0}return Math.abs(h)}
+const DEMOS=[
+  {title:'打ち合わせ',type:'work'},{title:'デザインレビュー',type:'work'},{title:'ランチ会',type:'private'},
+  {title:'クライアントMTG',type:'primary',time:'10:00–11:00'},{title:'入稿作業',type:'primary'},
+  {title:'見積もり送付',type:'work'},{title:'歯医者',type:'private',time:'14:00–15:00'},
+  {title:'ヨガ教室',type:'private',time:'19:00–20:00'},{title:'企画会議',type:'work',time:'13:00–14:00'},
+  {title:'コースター入稿',type:'primary'},{title:'@南郷',type:'private'},{title:'撮影',type:'work',time:'10:00–12:00'},
+];
+function genDemoEvents(){
+  // Preserve user-added events (demo- prefix)
+  const userEvts={};
+  Object.entries(state.events).forEach(([yr,dates])=>{
+    Object.entries(dates).forEach(([dk,evs])=>{
+      const added=evs.filter(e=>e.id&&e.id.startsWith('demo-'));
+      if(added.length){if(!userEvts[yr])userEvts[yr]={};userEvts[yr][dk]=added}
+    });
+  });
+  state.events={};
+  const wd=getWeekDates(state.currentDate);
+  const cy=state.currentDate.getFullYear();
+  for(let off=0;off<state.yearSpan;off++){
+    const y=cy-off;state.events[y]={};
+    wd.forEach((d,i)=>{
+      const k=fmtDate(y,d.getMonth(),d.getDate());
+      state.events[y][k]=[];
+      const sd=dateSeed(k);
+      if(seededRandom(sd)>.4){
+        const n=Math.floor(seededRandom(sd+1)*3)+1;
+        for(let j=0;j<n;j++){const idx=Math.floor(seededRandom(sd+j+2)*DEMOS.length);state.events[y][k].push({...DEMOS[idx],id:'auto-'+sd+j,allDay:seededRandom(sd+j+10)>.4})}
+      }
+      // Restore user-added
+      if(userEvts[y]?.[k])state.events[y][k].push(...userEvts[y][k]);
+    });
+  }
+}
+function loadDemoMode(){
+  state.isDemo=true;
+  state.calendars=[
+    {id:'primary',summary:'demo@example.com',primary:true,backgroundColor:'#ff7537',accessRole:'owner',selected:true},
+    {id:'work',summary:'WORK',backgroundColor:'#7bd148',accessRole:'owner',selected:true},
+    {id:'private',summary:'プライベート',backgroundColor:'#a47ae2',accessRole:'owner',selected:true},
+  ];
+  state.calendars.forEach(c=>state.activeCalendars[c.id]=true);
+  genDemoEvents();
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('app').classList.add('visible');
+  renderAll();
+}
+
+// ===== Sketch System =====
+const sketch = {
+  canvas: null, ctx: null,
+  drawing: false, tool: 'pen', color: '#1a1a1a', size: 2,
+  history: [], currentDate: null,
+  lastX: 0, lastY: 0,
+};
+
+function initSketch() {
+  sketch.canvas = document.getElementById('sketch-canvas');
+  sketch.ctx = sketch.canvas.getContext('2d');
+  const c = sketch.canvas;
+
+  // Mouse events
+  c.addEventListener('mousedown', sketchStart);
+  c.addEventListener('mousemove', sketchMove);
+  c.addEventListener('mouseup', sketchEnd);
+  c.addEventListener('mouseleave', sketchEnd);
+
+  // Touch events
+  c.addEventListener('touchstart', e => { e.preventDefault(); sketchStart(touchToMouse(e)); }, { passive: false });
+  c.addEventListener('touchmove', e => { e.preventDefault(); sketchMove(touchToMouse(e)); }, { passive: false });
+  c.addEventListener('touchend', e => { e.preventDefault(); sketchEnd(); }, { passive: false });
+}
+
+function touchToMouse(e) {
+  const t = e.touches[0];
+  const rect = sketch.canvas.getBoundingClientRect();
+  const scaleX = sketch.canvas.width / rect.width;
+  const scaleY = sketch.canvas.height / rect.height;
+  return { offsetX: (t.clientX - rect.left) * scaleX, offsetY: (t.clientY - rect.top) * scaleY };
+}
+
+function sketchStart(e) {
+  sketch.drawing = true;
+  sketch.lastX = e.offsetX;
+  sketch.lastY = e.offsetY;
+  // Save state for undo
+  sketch.history.push(sketch.ctx.getImageData(0, 0, sketch.canvas.width, sketch.canvas.height));
+  if (sketch.history.length > 30) sketch.history.shift();
+}
+
+function sketchMove(e) {
+  if (!sketch.drawing) return;
+  const ctx = sketch.ctx;
+  ctx.beginPath();
+  ctx.moveTo(sketch.lastX, sketch.lastY);
+  ctx.lineTo(e.offsetX, e.offsetY);
+
+  if (sketch.tool === 'eraser') {
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.strokeStyle = 'rgba(0,0,0,1)';
+    ctx.lineWidth = sketch.size * 4;
+  } else {
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.strokeStyle = sketch.color;
+    ctx.lineWidth = sketch.size;
+  }
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.stroke();
+
+  sketch.lastX = e.offsetX;
+  sketch.lastY = e.offsetY;
+}
+
+function sketchEnd() { sketch.drawing = false; }
+
+function setSketchTool(tool) {
+  sketch.tool = tool;
+  document.querySelectorAll('.sketch-tool[data-tool]').forEach(b => b.classList.toggle('active', b.dataset.tool === tool));
+}
+
+function setSketchColor(el) {
+  sketch.color = el.dataset.color;
+  sketch.tool = 'pen';
+  document.querySelectorAll('.sketch-color').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.sketch-tool[data-tool]').forEach(b => b.classList.toggle('active', b.dataset.tool === 'pen'));
+}
+
+function setSketchSize(el) {
+  sketch.size = parseInt(el.dataset.size);
+  document.querySelectorAll('.sketch-size').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function undoSketch() {
+  if (sketch.history.length === 0) return;
+  sketch.ctx.putImageData(sketch.history.pop(), 0, 0);
+}
+
+function clearSketch() {
+  sketch.history.push(sketch.ctx.getImageData(0, 0, sketch.canvas.width, sketch.canvas.height));
+  sketch.ctx.clearRect(0, 0, sketch.canvas.width, sketch.canvas.height);
+}
+
+function openSketch(dateStr) {
+  event.stopPropagation();
+  if (!PRO.check('sketch')) return;
+  sketch.currentDate = dateStr;
+  document.getElementById('sketch-date').textContent = dateStr.replace(/-/g, '/') + ' のスケッチ';
+  document.getElementById('sketch-overlay').classList.add('open');
+  sketch.history = [];
+
+  // Load existing sketch
+  const saved = localStorage.getItem('sketch-' + dateStr);
+  if (saved) {
+    const img = new Image();
+    img.onload = () => { sketch.ctx.clearRect(0, 0, sketch.canvas.width, sketch.canvas.height); sketch.ctx.drawImage(img, 0, 0); };
+    img.src = saved;
+  } else {
+    sketch.ctx.clearRect(0, 0, sketch.canvas.width, sketch.canvas.height);
+  }
+}
+
+function closeSketch() {
+  document.getElementById('sketch-overlay').classList.remove('open');
+}
+
+function saveSketch() {
+  const dataUrl = sketch.canvas.toDataURL('image/png');
+  // Check if canvas is blank
+  const blank = document.createElement('canvas');
+  blank.width = sketch.canvas.width;
+  blank.height = sketch.canvas.height;
+  if (dataUrl === blank.toDataURL('image/png')) {
+    localStorage.removeItem('sketch-' + sketch.currentDate);
+  } else {
+    localStorage.setItem('sketch-' + sketch.currentDate, dataUrl);
+  }
+  closeSketch();
+  renderAll();
+}
+
+function getSketchThumb(dateStr) {
+  return localStorage.getItem('sketch-' + dateStr);
+}
+
+// ===== Photo System =====
+function handlePhotoUpload(e, dateStr) {
+  if (!PRO.check('photo')) { e.target.value=''; return; }
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    // Resize to save localStorage space (max 600px wide)
+    const img = new Image();
+    img.onload = function() {
+      const maxW = 600;
+      let w = img.width, h = img.height;
+      if (w > maxW) { h = h * maxW / w; w = maxW; }
+      const cvs = document.createElement('canvas');
+      cvs.width = w; cvs.height = h;
+      const cx = cvs.getContext('2d');
+      cx.drawImage(img, 0, 0, w, h);
+      const dataUrl = cvs.toDataURL('image/jpeg', 0.7);
+      localStorage.setItem('photo-' + dateStr, dataUrl);
+      renderAll();
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function getPhotoThumb(dateStr) {
+  return localStorage.getItem('photo-' + dateStr);
+}
+
+// ===== Layer Toggle =====
+const layers = { text: true, sketch: true, photo: true };
+
+function toggleLayer(layer) {
+  if (!PRO.check('layers')) return;
+  layers[layer] = !layers[layer];
+  // Update button states
+  document.querySelectorAll('.layer-btn').forEach(b => {
+    b.classList.toggle('active', layers[b.dataset.layer]);
+  });
+  applyLayers();
+}
+
+function applyLayers() {
+  const c = document.getElementById('years-container');
+  c.classList.remove('layer-hide-text','layer-hide-sketch','layer-hide-photo','layer-solo-sketch','layer-solo-photo');
+  if (!layers.text) c.classList.add('layer-hide-text');
+  if (!layers.sketch) c.classList.add('layer-hide-sketch');
+  if (!layers.photo) c.classList.add('layer-hide-photo');
+  // Solo modes: only one visual layer active, show at full opacity
+  if (layers.sketch && !layers.text && !layers.photo) c.classList.add('layer-solo-sketch');
+  if (layers.photo && !layers.text && !layers.sketch) c.classList.add('layer-solo-photo');
+}
+
+// Init sketch on load
+document.addEventListener('DOMContentLoaded', initSketch);
+
+// Init
+window.onload=()=>{
+  if(isGoogleConfigured())document.getElementById('google-auth-btn').style.display='inline-flex';
+  if(isGoogleConfigured()&&typeof gapi!=='undefined'&&typeof google!=='undefined'){try{gapiLoaded();gisLoaded()}catch(e){}}
+};
+
+// === Pro badge visual hints on load ===
+document.addEventListener('DOMContentLoaded', () => {
+  if (!PRO.isActive) {
+    // Add subtle PRO indicators to layer buttons
+    document.querySelectorAll('.layer-btn').forEach(b => {
+      b.title = (b.title || '') + ' (Pro)';
+    });
+  }
+});
+</script>
+<!-- © 2026 くとうてん / 3nen-techo.com — All rights reserved. Unauthorized copying prohibited. -->
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>3年手帳 — Three-Year Diary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --k5:#f2f2f2; --k10:#e6e6e6; --k15:#d9d9d9; --k20:#cccccc;
+  --k25:#bfbfbf; --k30:#b3b3b3; --k40:#999999; --k50:#808080;
+  --k60:#666666; --k65:#595959; --k70:#4d4d4d; --k75:#404040;
+  --k80:#333333; --k85:#262626; --k90:#1a1a1a;
+  --accent-primary-bg:#faf6f0; --accent-primary-border:#c4a56a; --accent-primary-text:#6b5530;
+  --accent-work-bg:#f0f5f0; --accent-work-border:#7a9e7a; --accent-work-text:#3d5c3d;
+  --accent-private-bg:#f3f0f7; --accent-private-border:#9a85b5; --accent-private-text:#5a4570;
+  --font-sans:'Noto Sans JP',-apple-system,BlinkMacSystemFont,sans-serif;
+  --font-serif:'Noto Serif JP',Georgia,serif;
+  --max-w:1200px;
+  --cell-h:120px;
+  --cell-h-expanded:320px;
+  --radius:10px;
+  --ease:0.45s cubic-bezier(0.4,0,0.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px}
+body{font-family:var(--font-sans);background:linear-gradient(135deg,var(--k5) 0%,#f5f5f0 50%,var(--k5) 100%);color:var(--k85);min-height:100vh;-webkit-font-smoothing:antialiased}
+#app{flex-direction:column;min-height:100vh}
+#app.visible{display:flex !important}
+
+/* Auth */
+.auth-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:20px;text-align:center;padding:40px}
+.auth-logo{width:60px;height:60px;background:var(--k85);border-radius:14px;display:flex;align-items:center;justify-content:center}
+.auth-logo svg{width:28px;height:28px}
+.auth-title{font-size:26px;font-weight:700;color:var(--k85)}
+.auth-subtitle{font-size:13px;color:var(--k50);margin-top:-6px;letter-spacing:.05em}
+.auth-desc{font-size:13px;color:var(--k40);max-width:380px;line-height:1.7}
+.auth-btn{display:inline-flex;align-items:center;gap:10px;padding:12px 28px;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:600;font-family:var(--font-sans);cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.auth-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.auth-btn svg{width:18px;height:18px}
+.auth-note{font-size:11px;color:var(--k30);max-width:360px;line-height:1.5}
 .loading-spinner{width:36px;height:36px;border:3px solid var(--k10);border-top-color:var(--k60);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
