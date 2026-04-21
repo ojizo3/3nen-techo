@@ -73,7 +73,7 @@ body{font-family:var(--font-sans);background:linear-gradient(135deg,var(--k5) 0%
 
 /* Week Header */
 .week-header{max-width:var(--max-w);margin:10px auto 0;padding:0 16px}
-.week-grid{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:6px;transition:grid-template-columns var(--ease);gap:0 4px}
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:6px;transition:grid-template-columns var(--ease);gap:0 8px}
 .week-day{text-align:center;padding:3px 0;cursor:pointer;border-radius:6px;transition:all var(--ease);overflow:hidden;min-width:0}
 .week-day:hover{background:rgba(0,0,0,.025)}
 .week-day.selected{background:var(--k75);border-radius:8px}
@@ -103,7 +103,7 @@ body{font-family:var(--font-sans);background:linear-gradient(135deg,var(--k5) 0%
 .year-label{font-size:7px;font-weight:500;letter-spacing:.18em;opacity:.6}
 
 /* Day cells */
-.days-grid{display:grid;grid-template-columns:repeat(7,1fr);transition:grid-template-columns var(--ease);gap:0 4px}
+.days-grid{display:grid;grid-template-columns:repeat(7,1fr);transition:grid-template-columns var(--ease);gap:0 8px}
 .day-cell{min-height:60px;padding:6px 6px;border-right:1px solid var(--k10);overflow:hidden;cursor:pointer;transition:all var(--ease);position:relative}
 .day-cell:last-child{border-right:none}
 .day-cell:hover{background:rgba(0,0,0,.012)}
