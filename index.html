@@ -73,14 +73,14 @@ body{font-family:var(--font-sans);background:linear-gradient(135deg,var(--k5) 0%
 
 /* Week Header */
 .week-header{max-width:var(--max-w);margin:10px auto 0;padding:0 16px}
-.week-grid{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:6px;transition:grid-template-columns var(--ease)}
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:6px;transition:grid-template-columns var(--ease);gap:0 4px}
 .week-day{text-align:center;padding:3px 0;cursor:pointer;border-radius:6px;transition:all var(--ease);overflow:hidden;min-width:0}
 .week-day:hover{background:rgba(0,0,0,.025)}
 .week-day.selected{background:var(--k75);border-radius:8px}
 .week-day.hidden{opacity:0;padding:0;pointer-events:none}
 .week-day-en{font-size:8px;font-weight:500;letter-spacing:.12em;color:var(--k40);transition:color .3s}
 .week-day-ja{font-size:9px;color:var(--k50);transition:color .3s}
-.week-day-num{font-size:15px;font-weight:700;margin-top:1px;color:var(--k70);transition:color .3s}
+.week-day-num{font-size:14px;font-weight:700;margin-top:1px;color:var(--k70);transition:color .3s;letter-spacing:-.02em}
 .week-day.sat .week-day-en,.week-day.sat .week-day-ja,.week-day.sat .week-day-num{color:#6a8fb5}
 .week-day.sun .week-day-en,.week-day.sun .week-day-ja,.week-day.sun .week-day-num{color:#b56a6a}
 .week-day.today .week-day-num{color:var(--k85)}
@@ -103,7 +103,7 @@ body{font-family:var(--font-sans);background:linear-gradient(135deg,var(--k5) 0%
 .year-label{font-size:7px;font-weight:500;letter-spacing:.18em;opacity:.6}
 
 /* Day cells */
-.days-grid{display:grid;grid-template-columns:repeat(7,1fr);transition:grid-template-columns var(--ease)}
+.days-grid{display:grid;grid-template-columns:repeat(7,1fr);transition:grid-template-columns var(--ease);gap:0 4px}
 .day-cell{min-height:60px;padding:6px 6px;border-right:1px solid var(--k10);overflow:hidden;cursor:pointer;transition:all var(--ease);position:relative}
 .day-cell:last-child{border-right:none}
 .day-cell:hover{background:rgba(0,0,0,.012)}
@@ -988,6 +988,6 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ===== Source Protection ===== */
 (function(){document.addEventListener("contextmenu",function(e){e.preventDefault()});document.addEventListener("keydown",function(e){if(e.key==="F12"||(e.ctrlKey&&e.shiftKey&&/^[IJC]$/.test(e.key.toUpperCase()))||(e.ctrlKey&&/^[US]$/.test(e.key.toUpperCase()))){e.preventDefault()}});document.body.style.userSelect="none";document.body.style.webkitUserSelect="none";var s=document.createElement("style");s.textContent="input,textarea,[contenteditable]{user-select:text!important;-webkit-user-select:text!important}";document.head.appendChild(s);var _c={};["log","warn","error","info","debug","dir","table","clear","trace"].forEach(function(m){_c[m]=function(){}});try{Object.defineProperty(window,"console",{get:function(){return _c},configurable:false})}catch(e){}})();
 </script>
-<!-- © 2026 くとうてん / 3nen-techo.com — All rights reserved. Unauthorized copying prohibited. -->
+<!-- © 2026 よしだすすむ / 3nen-techo.com — All rights reserved. Unauthorized copying prohibited. -->
 </body>
 </html>
