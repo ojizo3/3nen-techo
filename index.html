@@ -275,7 +275,16 @@ select.form-input{appearance:none;background:url("data:image/svg+xml,%3Csvg xmln
 .pro-modal .pro-price{font-size:28px;font-weight:700;color:var(--k85);margin-bottom:4px}
 .pro-modal .pro-price small{font-size:13px;font-weight:400;color:var(--k50)}
 .pro-modal .pro-price-note{font-size:11px;color:var(--k40);margin-bottom:20px}
-.pro-modal .pro-cta{display:inline-flex;align-items:center;gap:8px;padding:12px 32px;border-radius:12px;border:none;background:linear-gradient(135deg,#c4a56a,#d4b87a);color:#fff;font-size:14px;font-weight:600;font-family:var(--font-sans);cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(196,165,106,.3)}
+.pro-plans{display:flex;gap:12px;margin-bottom:20px}
+.pro-plan{flex:1;border:2px solid var(--k15);border-radius:12px;padding:16px 12px;cursor:pointer;transition:all .2s;position:relative}
+.pro-plan:hover{border-color:var(--k30)}
+.pro-plan-active{border-color:#c4a56a;background:var(--accent-primary-bg)}
+.pro-plan-badge{position:absolute;top:-10px;right:12px;background:linear-gradient(135deg,#c4a56a,#d4b87a);color:#fff;font-size:10px;font-weight:600;padding:2px 10px;border-radius:10px}
+.pro-plan-price{font-size:24px;font-weight:700;color:var(--k85)}
+.pro-plan-price small{font-size:13px;font-weight:400;color:var(--k50)}
+.pro-plan-label{font-size:12px;font-weight:600;color:var(--k60);margin-top:2px}
+.pro-plan-desc{font-size:11px;color:var(--k40);margin-top:4px}
+.pro-modal .pro-cta{display:inline-flex;align-items:center;gap:8px;padding:12px 32px;border-radius:12px;border:none;background:linear-gradient(135deg,#c4a56a,#d4b87a);color:#fff;font-size:14px;font-weight:600;font-family:var(--font-sans);cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(196,165,106,.3);width:100%}
 .pro-modal .pro-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(196,165,106,.4)}
 .pro-modal .pro-close{display:block;margin-top:16px;font-size:12px;color:var(--k40);background:none;border:none;cursor:pointer;font-family:var(--font-sans)}
 .pro-modal .pro-close:hover{color:var(--k60)}
@@ -475,9 +484,20 @@ select.form-input{appearance:none;background:url("data:image/svg+xml,%3Csvg xmln
       <li>複数カレンダーの選択</li>
       <li>レイヤー表示の切り替え</li>
     </ul>
-    <div class="pro-price">¥1,500 <small>買い切り</small></div>
-    <div class="pro-price-note">リアル3年手帳の約1/3の価格。ずっと使えます。</div>
-    <button class="pro-cta" onclick="handleProUpgrade()">Pro を購入する</button>
+    <div class="pro-plans">
+      <div class="pro-plan pro-plan-active" onclick="selectPlan('lifetime')" id="plan-lifetime">
+        <div class="pro-plan-badge">おトク</div>
+        <div class="pro-plan-price">¥1,500</div>
+        <div class="pro-plan-label">買い切り</div>
+        <div class="pro-plan-desc">一度の支払いでずっと使える</div>
+      </div>
+      <div class="pro-plan" onclick="selectPlan('monthly')" id="plan-monthly">
+        <div class="pro-plan-price">¥200<small>/月</small></div>
+        <div class="pro-plan-label">月額プラン</div>
+        <div class="pro-plan-desc">いつでも解約OK</div>
+      </div>
+    </div>
+    <button class="pro-cta pro-buy-btn" onclick="handleProUpgrade()">Proにアップグレード</button>
     <button class="pro-close" onclick="closeProModal()">あとで</button>
   </div>
 </div>
@@ -502,18 +522,70 @@ const PRO = {
     if (this.isActive) return true;
     showProModal(feature);
     return false;
+  },
+  activate() {
+    this.isActive = true;
+    document.querySelectorAll('.pro-badge').forEach(b => b.style.display = 'none');
+    renderAll();
   }
 };
+
+// Pro状態をサーバーに確認
+async function checkProStatus() {
+  const p = state.calendars.find(c => c.primary);
+  if (!p) return;
+  const email = p.id;
+  try {
+    const r = await fetch('/api/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await r.json();
+    if (data.pro) PRO.activate();
+  } catch (e) { /* Pro確認失敗 — Free継続 */ }
+}
+
+let selectedPlan = 'lifetime';
+function selectPlan(plan) {
+  selectedPlan = plan;
+  document.getElementById('plan-lifetime').classList.toggle('pro-plan-active', plan === 'lifetime');
+  document.getElementById('plan-monthly').classList.toggle('pro-plan-active', plan === 'monthly');
+  const btn = document.querySelector('.pro-buy-btn');
+  if (btn) btn.textContent = plan === 'lifetime' ? 'Proにアップグレード ¥1,500' : 'Proにアップグレード ¥200/月';
+}
 function showProModal(feature) {
+  selectedPlan = 'lifetime';
+  selectPlan('lifetime');
   document.getElementById('pro-overlay').classList.add('open');
 }
 function closeProModal() {
   document.getElementById('pro-overlay').classList.remove('open');
 }
-function handleProUpgrade() {
-  // Phase 1: Stripe/Gumroad integration will go here
-  alert('決済機能は近日公開予定です。\nお楽しみに！');
-  closeProModal();
+async function handleProUpgrade() {
+  const p = state.calendars.find(c => c.primary);
+  if (!p) { alert('先にGoogleカレンダーを接続してください'); return; }
+  const email = p.id;
+  const btn = document.querySelector('.pro-buy-btn');
+  const origText = btn ? btn.textContent : '';
+  if (btn) { btn.textContent = '決済ページへ移動中...'; btn.disabled = true; }
+  try {
+    const r = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, plan: selectedPlan })
+    });
+    const data = await r.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert('決済ページの作成に失敗しました');
+      if (btn) { btn.textContent = origText; btn.disabled = false; }
+    }
+  } catch (e) {
+    alert('通信エラーが発生しました');
+    if (btn) { btn.textContent = origText; btn.disabled = false; }
+  }
 }
 
 const state = {
@@ -538,7 +610,7 @@ async function handleTokenResponse(resp){
   if(resp.error){console.error(resp);return}
   document.getElementById('auth-screen').style.display='none';
   document.getElementById('loading-screen').style.display='flex';
-  try{await fetchCalendars();await fetchAllEvents();document.getElementById('loading-screen').style.display='none';document.getElementById('app').classList.add('visible');renderAll()}
+  try{await fetchCalendars();await fetchAllEvents();await checkProStatus();document.getElementById('loading-screen').style.display='none';document.getElementById('app').classList.add('visible');renderAll()}
   catch(e){console.error(e);alert('取得に失敗しました');document.getElementById('loading-screen').style.display='none';document.getElementById('auth-screen').style.display='flex'}
 }
 
@@ -973,6 +1045,11 @@ document.addEventListener('DOMContentLoaded', initSketch);
 window.onload=()=>{
   if(isGoogleConfigured())document.getElementById('google-auth-btn').style.display='inline-flex';
   if(isGoogleConfigured()&&typeof gapi!=='undefined'&&typeof google!=='undefined'){try{gapiLoaded();gisLoaded()}catch(e){}}
+  // 決済成功後の戻りチェック
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('pro') === 'success') {
+    window.history.replaceState({}, '', '/');
+  }
 };
 
 // === Pro badge visual hints on load ===
